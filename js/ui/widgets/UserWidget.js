@@ -11,6 +11,10 @@ class UserWidget {
    * необходимо выкинуть ошибку.
    * */
   constructor( element ) {
+    if (!element) {
+      new Error('Пустой Элемент');
+    }
+    this.element = element;
 
   }
 
@@ -22,6 +26,9 @@ class UserWidget {
    * авторизованного пользователя
    * */
   update() {
-
+    let name = JSON.parse(localStorage.user)
+    if (User.current()) {
+      this.element.querySelector('.user-name').textContent = name.name
+    }
   }
 }

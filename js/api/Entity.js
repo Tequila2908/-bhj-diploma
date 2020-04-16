@@ -11,7 +11,14 @@ class Entity {
    * (в зависимости от того, что наследуется от Entity)
    * */
   static list( data, callback = f => f ) {
-
+    let options = {
+      method: 'GET',
+      url: this.HOST + this.URL,
+      data: data,
+      responseType: 'json',
+      callback
+    }
+    return createRequest(options);
   }
 
   /**
@@ -20,7 +27,17 @@ class Entity {
    * что наследуется от Entity)
    * */
   static create( data, callback = f => f ) {
+    let newData = Object.assign({_method: 'PUT'}, data),
+        options = {
+          method: 'POST',
+          url: this.HOST + this.URL,
+          data: newData,
+          responseType: 'json',
+          callback
 
+        }
+    console.log(options)
+    return createRequest(options);
   }
 
   /**
@@ -28,6 +45,15 @@ class Entity {
    * (в зависимости от того, что наследуется от Entity)
    * */
   static get( id = '', data, callback = f => f ) {
+      let options = {
+        method: 'GET',
+        url: this.HOST + this.URL,
+        data: data,
+        id: data.id,
+        responseType: 'json',
+        callback
+      }
+    return createRequest(options);
 
   }
 
@@ -36,7 +62,21 @@ class Entity {
    * (в зависимости от того, что наследуется от Entity)
    * */
   static remove( id = '', data, callback = f => f ) {
+    let newData = Object.assign({_method: 'DELETE'}, data),
+        options = {
+          method: 'POST',
+          url: this.HOST + this.URL,
+          data: newData,
+          id: data.id,
+          responseType: 'json',
+          callback
 
+        }
+     console.log(data)   
+    return createRequest(options);
   }
 }
+
+Entity.HOST = 'https://bhj-diplom.letsdocode.ru';
+Entity.URL = '';
 
