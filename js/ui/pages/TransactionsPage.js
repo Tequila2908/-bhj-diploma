@@ -24,8 +24,8 @@ class TransactionsPage {
    * */
   update() {
     console.log(this.lastOptions)
-   //this.render(this.lastOptions);
-    //this.render();
+   this.render(this.lastOptions);
+    this.render();
 
   }
 
@@ -59,7 +59,7 @@ class TransactionsPage {
   removeAccount() {
     if (this.lastOptions) {
       if (confirm('Вы действительно хотите удалить счёт?')) {
-        Account.remove(this.lastOptions, User.current(), (err, response) => {
+        Account.remove(this.lastOptions, [], (err, response) => {
           if (response.success) {
             console.log(response);
             this.clear();
@@ -77,7 +77,7 @@ class TransactionsPage {
    * По удалению транзакции вызовите метод App.update()
    * */
   removeTransaction( id ) {
-    Transaction.remove(id, User.current(), (err, response) => {
+    Transaction.remove(id, [], (err, response) => {
       if (response.success) {
         console.log(response)
          App.update()
@@ -137,7 +137,36 @@ class TransactionsPage {
    * в формат «10 марта 2019 г. в 03:20»
    * */
   formatDate( date ) {
+    let time = new Date(date);
+    let month = [
+                  'января',
+                  'февраля',
+                  'марта',
+                  'апреля',
+                  'мая',
+                  'июня',
+                  'июля',
+                  'августа',
+                  'сентября',
+                  'октября',
+                  'ноября',
+                  'декабря'
+                ];
+    
+    let nowMonth = month[time.getMonth()];
+    let nowDay = time.getDate();
+    let nowYear = time.getFullYear();
+    let nowHour = time.getHours();
+    let nowMinutes = time.getMinutes();
+    if (nowMinutes < 10) {
+        nowMinutes = '0' + nowMinutes;
+    }
+    if (nowHour < 10) {
+      nowHour = '0' + nowHour;
+    }
+    console.log(time)
 
+    return `${nowDay} ${nowMonth} ${nowYear} г. в ${nowHour}:${nowMinutes}`;
   }
 
   /**
@@ -145,6 +174,8 @@ class TransactionsPage {
    * item - объект с информацией о транзакции
    * */
   getTransactionHTML( item ) {
+    console.log(item.created_at);
+    let date = this.formatDate(item.created_at);
     let typeTransaction; 
     if (item.type === 'expense') {
       typeTransaction = 'transaction_expense';
@@ -159,7 +190,7 @@ class TransactionsPage {
           </div>
           <div class="transaction__info">
             <h4 class="transaction__title">${item.name}</h4>
-            <div class="transaction__date">10 марта 2019 г. в 03:20</div>
+            <div class="transaction__date">${date}</div>
           </div>
         </div>
         <div class="col-md-3">

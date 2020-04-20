@@ -28,6 +28,7 @@ const createRequest = (options = {}) => {
 		}
 		
 		console.log(data);
+		console.log(localStorage)
 		request.open(method, url);
 		request.addEventListener('readystatechange', func);
 		request.send(formData);
@@ -36,6 +37,7 @@ const createRequest = (options = {}) => {
 
 	function func(e) {
 		if (e.target.readyState === e.target.DONE){
+			console.log(e.target.response)
 			test(null, e.target.response);
 			return e.target.response;
 		}
