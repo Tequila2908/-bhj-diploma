@@ -59,7 +59,7 @@ class TransactionsPage {
   removeAccount() {
     if (this.lastOptions) {
       if (confirm('Вы действительно хотите удалить счёт?')) {
-        Account.remove(this.lastOptions, [], (err, response) => {
+        Account.remove(this.lastOptions, {}, (err, response) => {
           if (response.success) {
             console.log(response);
             this.clear();
@@ -77,7 +77,7 @@ class TransactionsPage {
    * По удалению транзакции вызовите метод App.update()
    * */
   removeTransaction( id ) {
-    Transaction.remove(id, [], (err, response) => {
+    Transaction.remove(id, {}, (err, response) => {
       if (response.success) {
         console.log(response)
          App.update()
